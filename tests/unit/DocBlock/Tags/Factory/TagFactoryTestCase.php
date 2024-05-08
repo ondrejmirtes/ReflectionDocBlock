@@ -26,6 +26,8 @@ use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use PHPUnit\Framework\TestCase;
 
+use function property_exists;
+
 abstract class TagFactoryTestCase extends TestCase
 {
     public function parseTag(string $tag): PhpDocTagNode
@@ -34,7 +36,12 @@ abstract class TagFactoryTestCase extends TestCase
         $tokens = $lexer->tokenize($tag);
         $constParser = new ConstExprParser();
 
-        return (new PhpDocParser(new TypeParser($constParser), $constParser))->parseTag(new TokenIterator($tokens));
+        $tagNode = (new PhpDocParser(new TypeParser($constParser), $constParser))->parseTag(new TokenIterator($tokens));
+        if (property_exists($tagNode->value, 'description') === true) {
+            $tagNode->value->setAttribute('description', $tagNode->value->description);
+        }
+
+        return $tagNode;
     }
 
     public function giveTypeResolver(): TypeResolver
