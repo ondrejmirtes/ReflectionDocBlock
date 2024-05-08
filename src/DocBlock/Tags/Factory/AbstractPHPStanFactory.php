@@ -23,6 +23,8 @@ use PHPStan\PhpDocParser\Parser\TokenIterator;
 use PHPStan\PhpDocParser\Parser\TypeParser;
 use RuntimeException;
 
+use function property_exists;
+
 /**
  * Factory class creating tags using phpstan's parser
  *
@@ -48,8 +50,11 @@ class AbstractPHPStanFactory implements Factory
 
     public function create(string $tagLine, ?TypeContext $context = null): Tag
     {
-        $tokens = $this->lexer->tokenize($tagLine);
-        $ast = $this->parser->parseTag(new TokenIterator($tokens));
+        $tokens = new TokenIterator($this->lexer->tokenize($tagLine));
+        $ast = $this->parser->parseTag($tokens);
+        if (property_exists($ast->value, 'description') === true) {
+            $ast->value->setAttribute('description', $ast->value->description . $tokens->joinUntil(Lexer::TOKEN_END));
+        }
 
         if ($context === null) {
             $context = new TypeContext('');

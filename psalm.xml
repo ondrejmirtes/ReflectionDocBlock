@@ -44,6 +44,7 @@
         <NoInterfaceProperties>
             <errorLevel type="info">
                 <file name="src/DocBlock/Tags/Factory/ParamFactory.php"/>
+                <file name="src/DocBlock/Tags/Factory/AbstractPHPStanFactory.php"/>
             </errorLevel>
         </NoInterfaceProperties>
 
