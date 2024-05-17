@@ -4,5 +4,9 @@ parameters:
         - '#Method phpDocumentor\\Reflection\\DocBlock\\StandardTagFactory::createTag\(\) should return phpDocumentor\\Reflection\\DocBlock\\Tag but returns mixed#'
         - "#Strict comparison using !== between array{'name', 'type'} and array{'name', 'type'} will always evaluate to false#"
         - '#Call to static method Webmozart\\Assert\\Assert::implementsInterface\(\) with class-string#'
+        - '#Class PHPStan\\PhpDocParser\\Lexer\\Lexer does not have a constructor and must be instantiated without any parameters\.#'
+        - '#Class PHPStan\\PhpDocParser\\Parser\\ConstExprParser constructor invoked with 3 parameters, 0\-1 required\.#'
+        - '#Class PHPStan\\PhpDocParser\\Parser\\PhpDocParser constructor invoked with 6 parameters, 2\-3 required\.#'
+        - '#Class PHPStan\\PhpDocParser\\Parser\\TypeParser constructor invoked with 3 parameters\, 0\-1 required\.#'
     paths:
         - src

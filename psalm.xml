@@ -48,6 +48,12 @@
             </errorLevel>
         </NoInterfaceProperties>
 
+        <TooManyArguments>
+            <errorLevel type="info">
+                <file name="src/DocBlock/Tags/Factory/AbstractPHPStanFactory.php"/>
+            </errorLevel>
+        </TooManyArguments>
+
         <RedundantConditionGivenDocblockType>
             <errorLevel type="info">
                 <!-- Psalm manage to infer a more precise type than PHPStan. notNull assert is needed for PHPStan but
