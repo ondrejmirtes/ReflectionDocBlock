@@ -67,7 +67,7 @@ class ExampleTest extends TestCase
      * @covers ::getStartingLine
      * @covers ::getDescription
      */
-    public function testAllowOmitingLineCount(): void
+    public function testAllowOmittingLineCount(): void
     {
         $tag = Example::create('"example1.php" 10 some text');
         $this->assertEquals('example1.php', $tag->getFilePath());

@@ -505,7 +505,7 @@ class StandardTagFactoryTest extends TestCase
                 'tag',
                 '@tag some text',
             ],
-            'tag body starting with sqare brackets is allowed' => [
+            'tag body starting with square brackets is allowed' => [
                 '@tag [is valid]',
                 'tag',
                 '@tag [is valid]',

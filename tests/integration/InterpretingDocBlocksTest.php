@@ -169,7 +169,7 @@ DESCRIPTION
 
     public function testMultilineTags(): void
     {
-        $docCommment = <<<DOC
+        $docComment = <<<DOC
 /**
  * This is an example of a summary.
  *
@@ -180,7 +180,7 @@ DESCRIPTION
  */
 DOC;
         $factory = DocBlockFactory::createInstance();
-        $docblock = $factory->create($docCommment);
+        $docblock = $factory->create($docComment);
 
         self::assertEquals(
             [
@@ -201,7 +201,7 @@ DOC;
 
     public function testMethodRegression(): void
     {
-        $docCommment = <<<DOC
+        $docComment = <<<DOC
 /**
  * This is an example of a summary.
  *
@@ -209,7 +209,7 @@ DOC;
  */
 DOC;
         $factory = DocBlockFactory::createInstance();
-        $docblock = $factory->create($docCommment);
+        $docblock = $factory->create($docComment);
 
         self::assertEquals(
             [
@@ -231,7 +231,7 @@ DOC;
 
     public function testInvalidTypeParamResultsInInvalidTag(): void
     {
-        $docCommment = '
+        $docComment = '
 /**
  * This is an example of a summary.
  *
@@ -239,7 +239,7 @@ DOC;
  */
 ';
         $factory = DocBlockFactory::createInstance();
-        $docblock = $factory->create($docCommment);
+        $docblock = $factory->create($docComment);
 
         self::assertEquals(
             [
@@ -257,14 +257,14 @@ DOC;
 
     public function testConstantReferenceTypes(): void
     {
-        $docCommment = <<<DOC
+        $docComment = <<<DOC
     /**
      * @return self::STATUS_*
      */
 DOC;
 
         $factory = DocBlockFactory::createInstance();
-        $docblock = $factory->create($docCommment);
+        $docblock = $factory->create($docComment);
 
         self::assertEquals(
             [
@@ -276,7 +276,7 @@ DOC;
 
     public function testRegressionWordpressDocblocks(): void
     {
-        $docCommment = <<<DOC
+        $docComment = <<<DOC
     /**
      * Install a package.
      *
@@ -311,7 +311,7 @@ DOC;
 DOC;
 
         $factory = DocBlockFactory::createInstance();
-        $docblock = $factory->create($docCommment);
+        $docblock = $factory->create($docComment);
 
         self::assertEquals(
             new DocBlock(
