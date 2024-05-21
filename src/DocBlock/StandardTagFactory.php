@@ -102,7 +102,7 @@ final class StandardTagFactory implements TagFactory
     ];
 
     /**
-     * @var array<class-string<Tag>> An array with a anotation s a key, and an
+     * @var array<class-string<Tag>> An array with an annotation as a key, and an
      *      FQCN to a class that handles it as an array value.
      */
     private array $annotationMappings = [];
@@ -323,7 +323,7 @@ final class StandardTagFactory implements TagFactory
      * Returns a copy of this class' Service Locator with added dynamic parameters,
      * such as the tag's name, body and Context.
      *
-     * @param TypeContext $context The Context (namespace and aliasses) that may be
+     * @param TypeContext $context The Context (namespace and aliases) that may be
      *  passed and is used to resolve FQSENs.
      * @param string      $tagName The name of the tag that may be
      *  passed onto the factory method of the Tag class.

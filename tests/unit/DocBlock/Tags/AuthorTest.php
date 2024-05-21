@@ -139,7 +139,7 @@ class AuthorTest extends TestCase
      * @covers ::__construct
      * @covers ::__toString
      */
-    public function testStringRepresentationWithEmtpyEmail(): void
+    public function testStringRepresentationWithEmptyEmail(): void
     {
         $fixture = new Author('Mike van Riel', '');
 

@@ -56,7 +56,7 @@ class VarTest extends TestCase
      *
      * @covers \phpDocumentor\Reflection\DocBlock\Tags\BaseTag::render
      */
-    public function testIfVariableNameIsOmmitedIfEmpty(): void
+    public function testIfVariableNameIsOmittedIfEmpty(): void
     {
         $fixture = new Var_('', null, null);
 
