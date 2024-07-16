@@ -29,6 +29,10 @@ final class Implements_ extends TagWithType
         $this->description = $description;
     }
 
+    /**
+     * @deprecated Create using static factory is deprecated,
+     *  this method should not be called directly by library consumers
+     */
     public static function create(string $body)
     {
         trigger_error(
