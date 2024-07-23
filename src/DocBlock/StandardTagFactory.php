@@ -22,6 +22,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Generic;
 use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use phpDocumentor\Reflection\DocBlock\Tags\Link as LinkTag;
 use phpDocumentor\Reflection\DocBlock\Tags\Method;
+use phpDocumentor\Reflection\DocBlock\Tags\Mixin;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Property;
 use phpDocumentor\Reflection\DocBlock\Tags\PropertyRead;
@@ -80,25 +81,26 @@ final class StandardTagFactory implements TagFactory
      *                               FQCN to a class that handles it as an array value.
      */
     private array $tagHandlerMappings = [
-        'author' => Author::class,
-        'covers' => Covers::class,
-        'deprecated' => Deprecated::class,
-        // 'example'        => '\phpDocumentor\Reflection\DocBlock\Tags\Example',
-        'link' => LinkTag::class,
-        'method' => Method::class,
-        'param' => Param::class,
-        'property-read' => PropertyRead::class,
-        'property' => Property::class,
+        'author'         => Author::class,
+        'covers'         => Covers::class,
+        'deprecated'     => Deprecated::class,
+        // 'example'     => '\phpDocumentor\Reflection\DocBlock\Tags\Example',
+        'link'           => LinkTag::class,
+        'mixin'          => Mixin::class,
+        'method'         => Method::class,
+        'param'          => Param::class,
+        'property-read'  => PropertyRead::class,
+        'property'       => Property::class,
         'property-write' => PropertyWrite::class,
-        'return' => Return_::class,
-        'see' => SeeTag::class,
-        'since' => Since::class,
-        'source' => Source::class,
-        'throw' => Throws::class,
-        'throws' => Throws::class,
-        'uses' => Uses::class,
-        'var' => Var_::class,
-        'version' => Version::class,
+        'return'         => Return_::class,
+        'see'            => SeeTag::class,
+        'since'          => Since::class,
+        'source'         => Source::class,
+        'throw'          => Throws::class,
+        'throws'         => Throws::class,
+        'uses'           => Uses::class,
+        'var'            => Var_::class,
+        'version'        => Version::class,
     ];
 
     /**
