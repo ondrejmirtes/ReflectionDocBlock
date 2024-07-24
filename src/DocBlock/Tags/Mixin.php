@@ -48,17 +48,4 @@ final class Mixin extends TagWithType implements Factory\StaticMethod
 
         return new static($type, $description);
     }
-
-    public function __toString(): string
-    {
-        if ($this->description) {
-            $description = $this->description->render();
-        } else {
-            $description = '';
-        }
-
-        $type = (string) $this->type;
-
-        return $type . ($description !== '' ? ($type !== '' ? ' ' : '') . $description : '');
-    }
 }
