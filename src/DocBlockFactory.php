@@ -32,6 +32,8 @@ use phpDocumentor\Reflection\DocBlock\Tags\Factory\ImplementsFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyReadFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyWriteFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\AbstractPHPStanFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateExtendsFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateImplementsFactory;
 
 use function trim;
 use function count;
@@ -81,8 +83,10 @@ final class DocBlockFactory implements DocBlockFactoryInterface
             new PropertyWriteFactory($typeResolver, $descriptionFactory),
             new MethodFactory($typeResolver, $descriptionFactory),
             new ImplementsFactory($typeResolver, $descriptionFactory),
-            new TemplateFactory($typeResolver, $descriptionFactory),
             new ExtendsFactory($typeResolver, $descriptionFactory),
+            new TemplateFactory($typeResolver, $descriptionFactory),
+            new TemplateImplementsFactory($typeResolver, $descriptionFactory),
+            new TemplateExtendsFactory($typeResolver, $descriptionFactory),
         );
 
         $tagFactory->addService($descriptionFactory);

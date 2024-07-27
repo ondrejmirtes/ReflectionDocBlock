@@ -41,7 +41,7 @@ final class TemplateFactory implements PHPStanFactory
             $tagValue->name,
             $this->typeResolver->createType($tagValue->bound, $context),
             $this->typeResolver->createType($tagValue->default, $context),
-            $this->descriptionFactory->create($tagValue->description, $context) 
+            $this->descriptionFactory->create($description, $context) 
         );
     }
 

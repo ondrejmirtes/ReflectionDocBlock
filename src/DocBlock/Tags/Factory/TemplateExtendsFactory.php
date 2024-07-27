@@ -9,19 +9,19 @@ use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use phpDocumentor\Reflection\DocBlock\Tags\Extends_;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ExtendsTagValueNode;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\TemplateExtends;
 
 /**
  * @internal This class is not part of the BC promise of this library.
  */
-final class ExtendsFactory extends AbstractExtendsFactory
+final class TemplateExtendsFactory extends AbstractExtendsFactory
 {
     public function __construct(TypeResolver $typeResolver, DescriptionFactory $descriptionFactory)
     {
         parent::__construct($typeResolver, $descriptionFactory);
-        $this->tagName = '@extends';
+        $this->tagName = '@template-extends';
     }
 
     public function create(PhpDocTagNode $node, Context $context): Tag
@@ -34,7 +34,7 @@ final class ExtendsFactory extends AbstractExtendsFactory
             $description = $tagValue->description;
         }
 
-        return new Extends_(
+        return new TemplateExtends(
             $this->typeResolver->createType($tagValue->type, $context),
             $this->descriptionFactory->create($description, $context) 
         );
