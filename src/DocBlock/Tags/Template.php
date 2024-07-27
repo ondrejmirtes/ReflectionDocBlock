@@ -26,7 +26,7 @@ final class Template extends TagWithType
 	/** @var non-empty-string */
 	private $templateName;
 
-	/** @var ?Type */
+	/** @var ?Type The real type */
 	private $bound;
 
 	/** @var ?Type */
