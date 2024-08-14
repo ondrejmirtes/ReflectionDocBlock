@@ -18,7 +18,7 @@ use function is_string;
 /**
  * @internal This class is not part of the BC promise of this library.
  */
-final class TemplateImplementsFactory extends AbstractImplementsFactory
+final class TemplateImplementsFactory implements Factory
 {
     private DescriptionFactory $descriptionFactory;
     private TypeResolver $typeResolver;
