@@ -4,24 +4,34 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\DocBlock\Tags\Factory;
 
-use Webmozart\Assert\Assert;
+use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\DocBlock\Tags\TemplateExtends;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ExtendsTagValueNode;
-use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\TemplateExtends;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use Webmozart\Assert\Assert;
+
+use function is_string;
 
 /**
  * @internal This class is not part of the BC promise of this library.
  */
-final class TemplateExtendsFactory extends AbstractExtendsFactory
+final class TemplateExtendsFactory implements PHPStanFactory
 {
+    private DescriptionFactory $descriptionFactory;
+    private TypeResolver $typeResolver;
+
     public function __construct(TypeResolver $typeResolver, DescriptionFactory $descriptionFactory)
     {
-        parent::__construct($typeResolver, $descriptionFactory);
-        $this->tagName = '@template-extends';
+        $this->descriptionFactory = $descriptionFactory;
+        $this->typeResolver = $typeResolver;
+    }
+
+    public function supports(PhpDocTagNode $node, Context $context): bool
+    {
+        return $node->value instanceof ExtendsTagValueNode && $node->name === '@template-extends';
     }
 
     public function create(PhpDocTagNode $node, Context $context): Tag
@@ -36,7 +46,7 @@ final class TemplateExtendsFactory extends AbstractExtendsFactory
 
         return new TemplateExtends(
             $this->typeResolver->createType($tagValue->type, $context),
-            $this->descriptionFactory->create($description, $context) 
+            $this->descriptionFactory->create($description, $context)
         );
     }
 }

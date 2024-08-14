@@ -13,39 +13,39 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection;
 
-use LogicException;
 use InvalidArgumentException;
-use Webmozart\Assert\Assert;
-use phpDocumentor\Reflection\DocBlock\Tag;
-use phpDocumentor\Reflection\DocBlock\TagFactory;
+use LogicException;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\Factory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\VarFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\ParamFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\MethodFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\ReturnFactory;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\DocBlock\TagFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\AbstractPHPStanFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\ExtendsFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\Factory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\ImplementsFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\MethodFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\ParamFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyReadFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyWriteFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\AbstractPHPStanFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\ReturnFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateExtendsFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateImplementsFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\VarFactory;
+use Webmozart\Assert\Assert;
 
-use function trim;
+use function array_shift;
 use function count;
-use function strpos;
-use function substr;
 use function explode;
 use function is_object;
-use function preg_match;
-use function array_shift;
-use function str_replace;
-use function preg_replace;
 use function method_exists;
+use function preg_match;
+use function preg_replace;
+use function str_replace;
+use function strpos;
+use function substr;
+use function trim;
 
 final class DocBlockFactory implements DocBlockFactoryInterface
 {

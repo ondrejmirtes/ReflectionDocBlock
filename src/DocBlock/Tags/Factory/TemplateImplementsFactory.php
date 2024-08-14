@@ -4,24 +4,34 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\DocBlock\Tags\Factory;
 
-use Webmozart\Assert\Assert;
+use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\DocBlock\Tags\TemplateImplements;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
-use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use PHPStan\PhpDocParser\Ast\PhpDoc\ImplementsTagValueNode;
-use phpDocumentor\Reflection\DocBlock\Tags\TemplateImplements;
+use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
+use Webmozart\Assert\Assert;
+
+use function is_string;
 
 /**
  * @internal This class is not part of the BC promise of this library.
  */
 final class TemplateImplementsFactory extends AbstractImplementsFactory
 {
+    private DescriptionFactory $descriptionFactory;
+    private TypeResolver $typeResolver;
+
     public function __construct(TypeResolver $typeResolver, DescriptionFactory $descriptionFactory)
     {
-        parent::__construct($typeResolver, $descriptionFactory);
-        $this->tagName = '@template-implements';
+        $this->descriptionFactory = $descriptionFactory;
+        $this->typeResolver = $typeResolver;
+    }
+
+    public function supports(PhpDocTagNode $node, Context $context): bool
+    {
+        return $node->value instanceof ImplementsTagValueNode && $node->name === '@template-implements';
     }
 
     public function create(PhpDocTagNode $node, Context $context): Tag
@@ -36,7 +46,7 @@ final class TemplateImplementsFactory extends AbstractImplementsFactory
 
         return new TemplateImplements(
             $this->typeResolver->createType($tagValue->type, $context),
-            $this->descriptionFactory->create($description, $context) 
+            $this->descriptionFactory->create($description, $context)
         );
     }
 }

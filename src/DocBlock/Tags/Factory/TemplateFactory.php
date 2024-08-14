@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\DocBlock\Tags\Factory;
 
-use Webmozart\Assert\Assert;
+use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\DocBlock\Tags\Template;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context;
 use PHPStan\PhpDocParser\Ast\PhpDoc\PhpDocTagNode;
-use phpDocumentor\Reflection\DocBlock\Tags\Template;
-use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use PHPStan\PhpDocParser\Ast\PhpDoc\TemplateTagValueNode;
+use Webmozart\Assert\Assert;
+
+use function is_string;
 
 /**
  * @internal This class is not part of the BC promise of this library.
@@ -30,7 +32,12 @@ final class TemplateFactory implements PHPStanFactory
     public function create(PhpDocTagNode $node, Context $context): Tag
     {
         $tagValue = $node->value;
+
         Assert::isInstanceOf($tagValue, TemplateTagValueNode::class);
+        $name = $tagValue->name;
+        if ($name === '') {
+            throw new \InvalidArgumentException('Template name cannot be empty');
+        }
 
         $description = $tagValue->getAttribute('description');
         if (is_string($description) === false) {
@@ -38,10 +45,10 @@ final class TemplateFactory implements PHPStanFactory
         }
 
         return new Template(
-            $tagValue->name,
+            $name,
             $this->typeResolver->createType($tagValue->bound, $context),
             $this->typeResolver->createType($tagValue->default, $context),
-            $this->descriptionFactory->create($description, $context) 
+            $this->descriptionFactory->create($description, $context)
         );
     }
 

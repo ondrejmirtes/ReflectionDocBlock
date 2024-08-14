@@ -13,13 +13,13 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\DocBlock\Tags;
 
-use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\DocBlock\Description;
+use phpDocumentor\Reflection\Type;
 
 /**
  * Reflection class for a {@}template-extends tag in a Docblock.
  */
-final class TemplateExtends extends Extends_ 
+final class TemplateExtends extends Extends_
 {
     public function __construct(Type $type, ?Description $description = null)
     {

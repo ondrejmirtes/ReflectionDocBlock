@@ -14,14 +14,14 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\DocBlock\Tags;
 
 use Doctrine\Deprecations\Deprecation;
-use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\DocBlock\Description;
-use phpDocumentor\Reflection\DocBlock\Tags\TagWithType;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use phpDocumentor\Reflection\Type;
 
 /**
  * Reflection class for a {@}extends tag in a Docblock.
  */
-class Extends_ extends TagWithType 
+class Extends_ extends TagWithType
 {
     public function __construct(Type $type, ?Description $description = null)
     {
@@ -34,7 +34,7 @@ class Extends_ extends TagWithType
      * @deprecated Create using static factory is deprecated,
      *  this method should not be called directly by library consumers
      */
-    public static function create(string $body)
+    public static function create(string $body): ?Tag
     {
         Deprecation::trigger(
             'phpdocumentor/reflection-docblock',
@@ -42,6 +42,7 @@ class Extends_ extends TagWithType
             'Create using static factory is deprecated, this method should not be called directly
              by library consumers',
         );
+
         return null;
     }
 }
