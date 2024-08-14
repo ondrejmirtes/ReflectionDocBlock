@@ -13,45 +13,47 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\DocBlock;
 
-use InvalidArgumentException;
-use phpDocumentor\Reflection\DocBlock\Tags\Author;
-use phpDocumentor\Reflection\DocBlock\Tags\Covers;
-use phpDocumentor\Reflection\DocBlock\Tags\Deprecated;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\Factory;
-use phpDocumentor\Reflection\DocBlock\Tags\Generic;
-use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
-use phpDocumentor\Reflection\DocBlock\Tags\Link as LinkTag;
-use phpDocumentor\Reflection\DocBlock\Tags\Method;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlock\Tags\Property;
-use phpDocumentor\Reflection\DocBlock\Tags\PropertyRead;
-use phpDocumentor\Reflection\DocBlock\Tags\PropertyWrite;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
-use phpDocumentor\Reflection\DocBlock\Tags\See as SeeTag;
-use phpDocumentor\Reflection\DocBlock\Tags\Since;
-use phpDocumentor\Reflection\DocBlock\Tags\Source;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
-use phpDocumentor\Reflection\DocBlock\Tags\Uses;
-use phpDocumentor\Reflection\DocBlock\Tags\Var_;
-use phpDocumentor\Reflection\DocBlock\Tags\Version;
-use phpDocumentor\Reflection\FqsenResolver;
-use phpDocumentor\Reflection\Types\Context as TypeContext;
-use ReflectionMethod;
-use ReflectionNamedType;
-use ReflectionParameter;
-use Webmozart\Assert\Assert;
-
-use function array_key_exists;
-use function array_merge;
-use function array_slice;
-use function call_user_func_array;
+use function trim;
 use function count;
+use function strpos;
+use function sprintf;
+use ReflectionMethod;
 use function get_class;
 use function is_object;
 use function preg_match;
-use function sprintf;
-use function strpos;
-use function trim;
+use ReflectionNamedType;
+use ReflectionParameter;
+use function array_merge;
+use function array_slice;
+use Webmozart\Assert\Assert;
+use InvalidArgumentException;
+use function array_key_exists;
+use function call_user_func_array;
+use phpDocumentor\Reflection\FqsenResolver;
+use phpDocumentor\Reflection\DocBlock\Tags\Uses;
+use phpDocumentor\Reflection\DocBlock\Tags\Var_;
+use phpDocumentor\Reflection\DocBlock\Tags\Mixin;
+use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use phpDocumentor\Reflection\DocBlock\Tags\Since;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
+use phpDocumentor\Reflection\DocBlock\Tags\Covers;
+use phpDocumentor\Reflection\DocBlock\Tags\Method;
+use phpDocumentor\Reflection\DocBlock\Tags\Source;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
+use phpDocumentor\Reflection\DocBlock\Tags\Generic;
+
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\DocBlock\Tags\Version;
+use phpDocumentor\Reflection\DocBlock\Tags\Property;
+use phpDocumentor\Reflection\DocBlock\Tags\Deprecated;
+use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
+use phpDocumentor\Reflection\DocBlock\Tags\PropertyRead;
+use phpDocumentor\Reflection\DocBlock\Tags\PropertyWrite;
+use phpDocumentor\Reflection\DocBlock\Tags\See as SeeTag;
+use phpDocumentor\Reflection\Types\Context as TypeContext;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\Factory;
+use phpDocumentor\Reflection\DocBlock\Tags\Link as LinkTag;
+use phpDocumentor\Reflection\DocBlock\Tags\TemplateCovariant;
 
 /**
  * Creates a Tag object given the contents of a tag.
@@ -80,25 +82,27 @@ final class StandardTagFactory implements TagFactory
      *                               FQCN to a class that handles it as an array value.
      */
     private array $tagHandlerMappings = [
-        'author' => Author::class,
-        'covers' => Covers::class,
-        'deprecated' => Deprecated::class,
-        // 'example'        => '\phpDocumentor\Reflection\DocBlock\Tags\Example',
-        'link' => LinkTag::class,
-        'method' => Method::class,
-        'param' => Param::class,
-        'property-read' => PropertyRead::class,
-        'property' => Property::class,
-        'property-write' => PropertyWrite::class,
-        'return' => Return_::class,
-        'see' => SeeTag::class,
-        'since' => Since::class,
-        'source' => Source::class,
-        'throw' => Throws::class,
-        'throws' => Throws::class,
-        'uses' => Uses::class,
-        'var' => Var_::class,
-        'version' => Version::class,
+        'author'             => Author::class,
+        'covers'             => Covers::class,
+        'deprecated'         => Deprecated::class,
+        // 'example'         => '\phpDocumentor\Reflection\DocBlock\Tags\Example',
+        'link'               => LinkTag::class,
+        'mixin'              => Mixin::class,
+        'method'             => Method::class,
+        'param'              => Param::class,
+        'property-read'      => PropertyRead::class,
+        'property'           => Property::class,
+        'property-write'     => PropertyWrite::class,
+        'return'             => Return_::class,
+        'see'                => SeeTag::class,
+        'since'              => Since::class,
+        'source'             => Source::class,
+        'template-covariant' => TemplateCovariant::class,
+        'throw'              => Throws::class,
+        'throws'             => Throws::class,
+        'uses'               => Uses::class,
+        'var'                => Var_::class,
+        'version'            => Version::class,
     ];
 
     /**

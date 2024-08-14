@@ -13,34 +13,39 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection;
 
-use InvalidArgumentException;
 use LogicException;
-use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
-use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
+use InvalidArgumentException;
+use Webmozart\Assert\Assert;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\TagFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\AbstractPHPStanFactory;
+use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
+use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\Factory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\MethodFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\VarFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\ParamFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\MethodFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\ReturnFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\ExtendsFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\ImplementsFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyReadFactory;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\PropertyWriteFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\ReturnFactory;
-use phpDocumentor\Reflection\DocBlock\Tags\Factory\VarFactory;
-use Webmozart\Assert\Assert;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\AbstractPHPStanFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateExtendsFactory;
+use phpDocumentor\Reflection\DocBlock\Tags\Factory\TemplateImplementsFactory;
 
-use function array_shift;
+use function trim;
 use function count;
-use function explode;
-use function is_object;
-use function method_exists;
-use function preg_match;
-use function preg_replace;
-use function str_replace;
 use function strpos;
 use function substr;
-use function trim;
+use function explode;
+use function is_object;
+use function preg_match;
+use function array_shift;
+use function str_replace;
+use function preg_replace;
+use function method_exists;
 
 final class DocBlockFactory implements DocBlockFactoryInterface
 {
@@ -76,7 +81,12 @@ final class DocBlockFactory implements DocBlockFactoryInterface
             new PropertyFactory($typeResolver, $descriptionFactory),
             new PropertyReadFactory($typeResolver, $descriptionFactory),
             new PropertyWriteFactory($typeResolver, $descriptionFactory),
-            new MethodFactory($typeResolver, $descriptionFactory)
+            new MethodFactory($typeResolver, $descriptionFactory),
+            new ImplementsFactory($typeResolver, $descriptionFactory),
+            new ExtendsFactory($typeResolver, $descriptionFactory),
+            new TemplateFactory($typeResolver, $descriptionFactory),
+            new TemplateImplementsFactory($typeResolver, $descriptionFactory),
+            new TemplateExtendsFactory($typeResolver, $descriptionFactory),
         );
 
         $tagFactory->addService($descriptionFactory);
@@ -88,6 +98,11 @@ final class DocBlockFactory implements DocBlockFactoryInterface
         $tagFactory->registerTagHandler('property-read', $phpstanTagFactory);
         $tagFactory->registerTagHandler('property-write', $phpstanTagFactory);
         $tagFactory->registerTagHandler('method', $phpstanTagFactory);
+        $tagFactory->registerTagHandler('extends', $phpstanTagFactory);
+        $tagFactory->registerTagHandler('implements', $phpstanTagFactory);
+        $tagFactory->registerTagHandler('template', $phpstanTagFactory);
+        $tagFactory->registerTagHandler('template-extends', $phpstanTagFactory);
+        $tagFactory->registerTagHandler('template-implements', $phpstanTagFactory);
 
         $docBlockFactory = new self($descriptionFactory, $tagFactory);
         foreach ($additionalTags as $tagName => $tagHandler) {
