@@ -261,10 +261,17 @@ final class Method extends BaseTag implements Factory\StaticMethod
     {
         $arguments = [];
         foreach ($this->parameters as $parameter) {
+            if ($parameter->getDefaultValue() !== null) {
+                $parameterDefaultValueStr = $parameter->getDefaultValue();
+                settype($parameterDefaultValueStr, (string)$parameter->getType());
+                $parameterDefaultValueStr =  sprintf(' = %s', var_export($parameterDefaultValueStr, true));
+            }
+
             $arguments[] = $parameter->getType() . ' ' .
                 ($parameter->isReference() ? '&' : '') .
                 ($parameter->isVariadic() ? '...' : '') .
-                '$' . $parameter->getName();
+                '$' . $parameter->getName() .
+                $parameterDefaultValueStr ?? '';
         }
 
         $argumentStr = '(' . implode(', ', $arguments) . ')';
