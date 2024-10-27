@@ -272,7 +272,7 @@ final class Method extends BaseTag implements Factory\StaticMethod
                 ($parameter->isReference() ? '&' : '') .
                 ($parameter->isVariadic() ? '...' : '') .
                 '$' . $parameter->getName() .
-                $parameterDefaultValueStr ?? '';
+                ($parameterDefaultValueStr ?? '');
         }
 
         $argumentStr = '(' . implode(', ', $arguments) . ')';
