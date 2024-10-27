@@ -261,6 +261,7 @@ final class Method extends BaseTag implements Factory\StaticMethod
     {
         $arguments = [];
         foreach ($this->parameters as $parameter) {
+            $parameterDefaultValueStr = null;
             if ($parameter->getDefaultValue() !== null) {
                 $parameterDefaultValueStr = $parameter->getDefaultValue();
                 settype($parameterDefaultValueStr, (string)$parameter->getType());
