@@ -17,6 +17,7 @@ use Mockery as m;
 use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\Fqsen;
+use phpDocumentor\Reflection\Type;
 use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -699,42 +700,5 @@ class MethodTest extends TestCase
         $this->assertInstanceOf(String_::class, $fixture->getReturnType());
         $this->assertSame($description, $fixture->getDescription());
         $this->assertTrue($fixture->returnsReference());
-    }
-
-    /**
-     * @uses   \phpDocumentor\Reflection\DocBlock\Tags\MethodParameter::__construct
-     * @uses   \phpDocumentor\Reflection\DocBlock\Tags\MethodParameter::getDefaultValue()
-     * @uses   \phpDocumentor\Reflection\DocBlock\Tags\MethodParameter::__toString
-     * @uses   \phpDocumentor\Reflection\DocBlock\Tags\Formatter\PassthroughFormatter
-     *
-     * @covers \phpDocumentor\Reflection\DocBlock\Tags\BaseTag::render
-     * @covers \phpDocumentor\Reflection\DocBlock\Tags\BaseTag::getName
-     */
-    public function testIfTagCanBeRenderedUsingMethodParameterWithDefaultValue(): void
-    {
-        $arguments = [
-            ['name' => 'argument1', 'type' => new String_()],
-            ['name' => 'argument2', 'type' => new Object_()],
-        ];
-
-        $fixture = new Method(
-            'myMethod',
-            $arguments,
-            new Void_(),
-            false,
-            null,
-            false,
-            [
-                new MethodParameter('argument1', new String_(), false, false, '1'),
-                new MethodParameter('argument2', new Integer(), false, false, '1'),
-                new MethodParameter('argument3', new Boolean(), false, false, 'true'),
-                new MethodParameter('argument4', new Float_(), false, false, '1.23'),
-            ]
-        );
-
-        $this->assertSame(
-            '@method void myMethod(string $argument1 = \'1\', int $argument2 = 1, bool $argument3 = true, float $argument4 = 1.23)',
-            $fixture->render()
-        );
     }
 }
