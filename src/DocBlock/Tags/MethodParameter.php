@@ -25,10 +25,16 @@ final class MethodParameter
 
     private string $name;
 
-    private mixed $defaultValue;
+    /**
+     * @var mixed
+     */
+    private $defaultValue;
 
     private const NO_DEFAULT_VALUE = '__NO_VALUE__';
 
+    /**
+     * @param mixed $defaultValue
+     */
     public function __construct(
         string $name,
         Type $type,

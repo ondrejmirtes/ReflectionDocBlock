@@ -17,10 +17,16 @@ use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use function str_repeat;
 use function strlen;
 
-class MethodParameterFactory
+/**
+ * @internal This class is not part of the BC promise of this library.
+ */
+final class MethodParameterFactory
 {
     /**
      * Formats the given default value to a string-able mixin
+     *
+     * @param mixed $defaultValue
+     * @return string
      */
     public function format($defaultValue): string
     {
@@ -30,32 +36,36 @@ class MethodParameterFactory
         return '';
     }
 
-    protected function formatDouble(float $defaultValue): string
+    private function formatDouble(float $defaultValue): string
     {
         return var_export($defaultValue, true);
     }
 
-    protected function formatNull($defaultValue): string
+    /**
+     * @param mixed $defaultValue
+     * @return string
+     */
+    private function formatNull($defaultValue): string
     {
         return 'null';
     }
 
-    protected function formatInteger(int $defaultValue): string
+    private function formatInteger(int $defaultValue): string
     {
         return var_export($defaultValue, true);
     }
 
-    protected function formatString(string $defaultValue): string
+    private function formatString(string $defaultValue): string
     {
         return var_export($defaultValue, true);
     }
 
-    protected function formatBoolean(bool $defaultValue): string
+    private function formatBoolean(bool $defaultValue): string
     {
         return var_export($defaultValue, true);
     }
 
-    protected function formatArray(array $defaultValue): string
+    private function formatArray(array $defaultValue): string
     {
         $formatedValue = '[';
 
@@ -74,7 +84,7 @@ class MethodParameterFactory
         return $formatedValue;
     }
 
-    protected function formatObject(object $defaultValue): string
+    private function formatObject(object $defaultValue): string
     {
         return 'new '. get_class($defaultValue). '()';
     }
