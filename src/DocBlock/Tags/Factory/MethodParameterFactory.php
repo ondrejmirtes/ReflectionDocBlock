@@ -65,6 +65,10 @@ final class MethodParameterFactory
         return var_export($defaultValue, true);
     }
 
+    /**
+     * @param array<array, null, int, float, bool, string, object> $defaultValue
+     * @return string
+     */
     private function formatArray(array $defaultValue): string
     {
         $formatedValue = '[';
