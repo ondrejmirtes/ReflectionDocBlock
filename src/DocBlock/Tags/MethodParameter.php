@@ -30,7 +30,7 @@ final class MethodParameter
      */
     private $defaultValue;
 
-    private const NO_DEFAULT_VALUE = '__NO_VALUE__';
+    public const NO_DEFAULT_VALUE = '__NO_VALUE__';
 
     /**
      * @param mixed $defaultValue
