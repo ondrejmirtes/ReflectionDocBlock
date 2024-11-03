@@ -166,14 +166,14 @@ final class StandardTagFactory implements TagFactory
 
     public function addService(object $service, ?string $alias = null): void
     {
-        $this->serviceLocator[$alias ?: get_class($service)] = $service;
+        $this->serviceLocator[$alias ?? get_class($service)] = $service;
     }
 
     /** {@inheritDoc} */
     public function registerTagHandler(string $tagName, $handler): void
     {
         Assert::stringNotEmpty($tagName);
-        if (strpos($tagName, '\\') && $tagName[0] !== '\\') {
+        if (strpos($tagName, '\\') !== false && $tagName[0] !== '\\') {
             throw new InvalidArgumentException(
                 'A namespaced tag must have a leading backslash as it must be fully qualified'
             );
