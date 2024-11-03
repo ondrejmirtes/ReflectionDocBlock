@@ -69,9 +69,12 @@ final class MethodParameter
         return $this->isVariadic;
     }
 
-    public function getDefaultValue(): mixed
+    public function getDefaultValue(): ?string
     {
-        return $this->defaultValue;
+        if (is_array($this->defaultValue)) {
+            return implode(',', $this->defaultValue);
+        }
+        return (string) $this->defaultValue;
     }
 
     public function __toString(): string
@@ -80,6 +83,6 @@ final class MethodParameter
             ($this->isReference() ? '&' : '') .
             ($this->isVariadic() ? '...' : '') .
             '$' . $this->getName() .
-            ($this->getDefaultValue() !== self::NO_DEFAULT_VALUE ? (new MethodParameterFactory)->format($this->getDefaultValue()) : '');
+            ($this->defaultValue !== self::NO_DEFAULT_VALUE ? (new MethodParameterFactory)->format($this->defaultValue) : '');
     }
 }

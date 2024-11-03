@@ -66,7 +66,7 @@ final class MethodParameterFactory
     }
 
     /**
-     * @param array<array, null, int, float, bool, string, object> $defaultValue
+     * @param array<array|null|int|float|bool|string|object> $defaultValue
      * @return string
      */
     private function formatArray(array $defaultValue): string
