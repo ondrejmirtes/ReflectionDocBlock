@@ -15,9 +15,6 @@ namespace phpDocumentor\Reflection\DocBlock\Tags;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\MethodParameterFactory;
 use phpDocumentor\Reflection\Type;
 
-use function implode;
-use function is_array;
-
 final class MethodParameter
 {
     private Type $type;
