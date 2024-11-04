@@ -13,9 +13,12 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\DocBlock\Tags\Factory;
 
-use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
-use function str_repeat;
-use function strlen;
+use function array_key_last;
+use function get_class;
+use function gettype;
+use function method_exists;
+use function ucfirst;
+use function var_export;
 
 /**
  * @internal This class is not part of the BC promise of this library.
@@ -26,13 +29,14 @@ final class MethodParameterFactory
      * Formats the given default value to a string-able mixin
      *
      * @param mixed $defaultValue
-     * @return string
      */
     public function format($defaultValue): string
     {
-        if (method_exists($this, $method = 'format'.ucfirst(gettype($defaultValue)))) {
+        $method = 'format' . ucfirst(gettype($defaultValue));
+        if (method_exists($this, $method)) {
             return ' = ' . $this->{$method}($defaultValue);
         }
+
         return '';
     }
 
@@ -43,7 +47,6 @@ final class MethodParameterFactory
 
     /**
      * @param mixed $defaultValue
-     * @return string
      */
     private function formatNull($defaultValue): string
     {
@@ -66,30 +69,32 @@ final class MethodParameterFactory
     }
 
     /**
-     * @param array<array|null|int|float|bool|string|object> $defaultValue
-     * @return string
+     * @param array<(array<mixed>|int|float|bool|string|object|null)> $defaultValue
      */
     private function formatArray(array $defaultValue): string
     {
         $formatedValue = '[';
 
         foreach ($defaultValue as $key => $value) {
-            if (method_exists($this, $method = 'format'.ucfirst(gettype($value)))) {
-                $formatedValue .= $this->{$method}($value);
-
-                if ($key !== array_key_last($defaultValue)) {
-                    $formatedValue .= ',';
-                }
+            $method = 'format' . ucfirst(gettype($value));
+            if (!method_exists($this, $method)) {
+                continue;
             }
+
+            $formatedValue .= $this->{$method}($value);
+
+            if ($key === array_key_last($defaultValue)) {
+                continue;
+            }
+
+            $formatedValue .= ',';
         }
 
-        $formatedValue .= ']';
-
-        return $formatedValue;
+        return $formatedValue . ']';
     }
 
     private function formatObject(object $defaultValue): string
     {
-        return 'new '. get_class($defaultValue). '()';
+        return 'new ' . get_class($defaultValue) . '()';
     }
 }

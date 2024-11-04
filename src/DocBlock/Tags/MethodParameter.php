@@ -15,6 +15,9 @@ namespace phpDocumentor\Reflection\DocBlock\Tags;
 use phpDocumentor\Reflection\DocBlock\Tags\Factory\MethodParameterFactory;
 use phpDocumentor\Reflection\Type;
 
+use function implode;
+use function is_array;
+
 final class MethodParameter
 {
     private Type $type;
@@ -25,9 +28,7 @@ final class MethodParameter
 
     private string $name;
 
-    /**
-     * @var mixed
-     */
+    /** @var mixed */
     private $defaultValue;
 
     public const NO_DEFAULT_VALUE = '__NO_VALUE__';
@@ -71,13 +72,11 @@ final class MethodParameter
 
     public function getDefaultValue(): ?string
     {
-        if ($this->defaultValue === static::NO_DEFAULT_VALUE) {
+        if ($this->defaultValue === self::NO_DEFAULT_VALUE) {
             return null;
         }
-        if (is_array($this->defaultValue)) {
-            return implode(',', $this->defaultValue);
-        }
-        return (string) $this->defaultValue;
+
+        return (new MethodParameterFactory())->format($this->defaultValue);
     }
 
     public function __toString(): string
@@ -86,6 +85,10 @@ final class MethodParameter
             ($this->isReference() ? '&' : '') .
             ($this->isVariadic() ? '...' : '') .
             '$' . $this->getName() .
-            ($this->defaultValue !== self::NO_DEFAULT_VALUE ? (new MethodParameterFactory)->format($this->defaultValue) : '');
+            (
+                $this->defaultValue !== self::NO_DEFAULT_VALUE ?
+                (new MethodParameterFactory())->format($this->defaultValue) :
+                ''
+            );
     }
 }

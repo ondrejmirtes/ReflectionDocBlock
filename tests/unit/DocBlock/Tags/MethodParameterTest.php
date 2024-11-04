@@ -24,6 +24,9 @@ use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
 use PHPUnit\Framework\TestCase;
+use stdClass;
+
+use function sprintf;
 
 /**
  * @coversDefaultClass \phpDocumentor\Reflection\DocBlock\Tags\Method
@@ -39,6 +42,7 @@ class MethodParameterTest extends TestCase
         m::close();
     }
 
+    /** @return array<array{0: Type, 1: mixed, 2: string}> */
     public function collectionDefaultValuesProvider(): array
     {
         return [
@@ -50,7 +54,7 @@ class MethodParameterTest extends TestCase
             [new Array_(), [[1, 2], '2', true], '[[1,2],\'2\',true]'],
             [new Nullable(new Float_()), null, 'null'],
             [new Nullable(new Float_()), 1.23, '1.23'],
-            [new Object_(new Fqsen('\\stdClass')), new \stdClass(), 'new stdClass()'],
+            [new Object_(new Fqsen('\\stdClass')), new stdClass(), 'new stdClass()'],
         ];
     }
 
@@ -60,12 +64,17 @@ class MethodParameterTest extends TestCase
      * @uses   \phpDocumentor\Reflection\DocBlock\Tags\MethodParameter::__toString
      * @uses   \phpDocumentor\Reflection\DocBlock\Tags\Formatter\PassthroughFormatter
      *
+     * @param mixed $defaultValue
+     *
      * @dataProvider collectionDefaultValuesProvider
      * @covers \phpDocumentor\Reflection\DocBlock\Tags\BaseTag::render
      * @covers \phpDocumentor\Reflection\DocBlock\Tags\BaseTag::getName
      */
-    public function testIfTagCanBeRenderedUsingMethodParameterWithDefaultValue(Type $type, $defaultValue, string $defaultValueStr): void
-    {
+    public function testIfTagCanBeRenderedUsingMethodParameterWithDefaultValue(
+        Type $type,
+        $defaultValue,
+        string $defaultValueStr
+    ): void {
         $fixture = new MethodParameter('argument', $type, false, false, $defaultValue);
 
         $this->assertSame(
