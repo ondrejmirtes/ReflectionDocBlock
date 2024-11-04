@@ -71,6 +71,9 @@ final class MethodParameter
 
     public function getDefaultValue(): ?string
     {
+        if ($this->defaultValue === static::NO_DEFAULT_VALUE) {
+            return null;
+        }
         if (is_array($this->defaultValue)) {
             return implode(',', $this->defaultValue);
         }
