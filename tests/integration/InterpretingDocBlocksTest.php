@@ -25,6 +25,7 @@ use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\See;
 use phpDocumentor\Reflection\DocBlock\Tags\Since;
+use phpDocumentor\Reflection\DocBlock\Tags\Template;
 use phpDocumentor\Reflection\PseudoTypes\ConstExpression;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Compound;
@@ -429,6 +430,37 @@ identifier has already been registered.',
                 new Context('\\')
             ),
             $docblock
+        );
+    }
+
+    public function testProcessTemplateTag(): void
+    {
+        $docComment = <<<DOCBLOCK
+        /** 
+         * @template T as \Type this is a description
+         * @template TDefault as \Type = \\String_ this is a description
+         */
+DOCBLOCK;
+
+        $factory = DocBlockFactory::createInstance();
+        $docblock = $factory->create($docComment);
+
+        self::assertEquals(
+            [
+                new Template(
+                    'T',
+                    new Object_(new Fqsen('\\Type')),
+                    new Mixed_(),
+                    new Description('this is a description')
+                ),
+                new Template(
+                    'TDefault',
+                    new Object_(new Fqsen('\\Type')),
+                    new Object_(new Fqsen('\\String_')),
+                    new Description('this is a description')
+                ),
+            ],
+            $docblock->getTags()
         );
     }
 }

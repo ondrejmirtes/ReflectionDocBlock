@@ -21,7 +21,7 @@ use phpDocumentor\Reflection\Type;
 /**
  * Reflection class for a {@}template tag in a Docblock.
  */
-final class Template extends TagWithType
+final class Template extends BaseTag
 {
     /** @var non-empty-string */
     private string $templateName;
