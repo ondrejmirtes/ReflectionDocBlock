@@ -47,7 +47,6 @@ use function array_key_exists;
 use function array_merge;
 use function array_slice;
 use function call_user_func_array;
-use function count;
 use function get_class;
 use function is_object;
 use function preg_match;
@@ -203,10 +202,6 @@ final class StandardTagFactory implements TagFactory
             throw new InvalidArgumentException(
                 'The tag "' . $tagLine . '" does not seem to be wellformed, please check it for errors'
             );
-        }
-
-        if (count($matches) < 3) {
-            $matches[] = '';
         }
 
         return array_slice($matches, 1);

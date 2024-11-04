@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace phpDocumentor\Reflection\DocBlock\Tags\Factory;
 
-use InvalidArgumentException;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\Template;
@@ -36,9 +35,6 @@ final class TemplateFactory implements PHPStanFactory
 
         Assert::isInstanceOf($tagValue, TemplateTagValueNode::class);
         $name = $tagValue->name;
-        if ($name === '') {
-            throw new InvalidArgumentException('Template name cannot be empty');
-        }
 
         $description = $tagValue->getAttribute('description');
         if (is_string($description) === false) {
