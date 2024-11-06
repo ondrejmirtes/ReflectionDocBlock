@@ -2,5 +2,6 @@ parameters:
     level: max
     ignoreErrors:
         - '#Method phpDocumentor\\Reflection\\DocBlock\\StandardTagFactory::createTag\(\) should return phpDocumentor\\Reflection\\DocBlock\\Tag but returns mixed#'
+        - '#Offset 2 on array\{string, 28, int\} on left side of \?\? always exists and is not nullable\.#'
     paths:
         - src
